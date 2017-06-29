@@ -23,12 +23,20 @@ class QuoteManager(models.Manager):
 
     def insertfavorite(self, postData):
         results = {'status': True, 'errors': []}
+        user = User.objects.get(id=postData['createdBy'])
+        quote = Quote.objects.get(id=postData['quoteid'])
+        quote.favorite.add(user.id)
+        return results
+
+    def removefavorite(self, postData):
+        results = {'status': True, 'errors': []}
         print postData, "*"*150
         user = User.objects.get(id=postData['createdBy'])
         quote = Quote.objects.get(id=postData['quoteid'])
         print user, "*"*150
-        quote.favorite.add(user.id)
+        quote.favorite.remove(user.id)
         return results
+
 
 
 class Quote(models.Model):

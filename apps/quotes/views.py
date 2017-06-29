@@ -30,3 +30,10 @@ def addFavorite(request):
         for error in insertfavorite['errors']:
             messages.error(request, error)
     return redirect('quotes:index')
+
+def removeFavorite(request):
+    removefavorite = Quote.objects.removefavorite(request.POST)
+    if not removefavorite['status']:
+        for error in removefavorite['errors']:
+            messages.error(request, error)
+    return redirect('quotes:index')

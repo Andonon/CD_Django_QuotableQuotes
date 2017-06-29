@@ -30,11 +30,11 @@
                         <td>{{ quote.message }}</td>
                         <td>{{ quote.created_by.alias }}</td>
                         <td>
-                            <form action="{% url 'quotes:addFavorite' %}" id="addFavorite" method="post">
+                            <form action="{% url 'quotes:removeFavorite' %}" id="removeFavorite" method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="createdBy" value="{{ loggedinuser.id }}">
                                 <input type="hidden" name="quoteid" value="{{ quote.id }}">                 
-                                <input type="submit" name="addFavoriteButton" value="Remove Favorite">
+                                <input type="submit" name="removeFavoriteButton" value="Remove Favorite">
                             </form>
                         </td>
                     </tr>
