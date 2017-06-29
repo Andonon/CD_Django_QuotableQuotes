@@ -35,8 +35,8 @@
             <h3>Login</h3>
             <form action="{% url 'auth:login' %}" id="loginform" method="post">
                 {% csrf_token %}
-                <label for="username">Username:</label>
-                <input type="text" name="username"><br><br>
+                <label for="email">Email:</label>
+                <input type="text" name="email"><br><br>
                 <label for="userpassword">Password:</label>
                 <input type="password" name="userpassword"><br><br>
                 <input type="submit" name="registerbutton" value="Login">

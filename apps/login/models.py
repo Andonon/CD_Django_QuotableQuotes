@@ -49,7 +49,7 @@ class UserManager(models.Manager):
     def loginvalidate(self, postData):
         results = {'status': True, 'errors': [], 'user': None}
         try:                # need this try loop if the db is empty.
-            user = User.objects.filter(alias=postData['alias'])
+            user = User.objects.filter(email=postData['email'])
             user[0]
         except:
             results['status'] = False
@@ -78,5 +78,5 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.id) + ", " + self.email
+        return str(self.id)
     objects = UserManager()

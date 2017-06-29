@@ -8,6 +8,10 @@
     <body>
         <div id='wrapper'>
             <h1>Hello</h1>
+             <form action="{% url 'auth:logout' %}" id="logoutform" method="post">
+                {% csrf_token %}
+                <input type="submit" name="logoutbutton" value="Log Out">
+            </form>        
         </div>
     </body>
 </html>
