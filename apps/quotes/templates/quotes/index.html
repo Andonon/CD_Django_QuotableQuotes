@@ -17,6 +17,29 @@
             <div>
                 <h3>Your Favorites</h3>
                 <hr>
+                <table border>
+                    <tr>
+                        <th>Quote By:</th>
+                        <th>Quote:</th>
+                        <th>submitted by:</th>
+                        <th>Remove from Favorites</th>
+                    </tr>
+                {% for quote in favoritequotes %}
+                    <tr>
+                        <td>{{ quote.quoted_by }}</td>
+                        <td>{{ quote.message }}</td>
+                        <td>{{ quote.created_by.alias }}</td>
+                        <td>
+                            <form action="{% url 'quotes:addFavorite' %}" id="addFavorite" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="createdBy" value="{{ loggedinuser.id }}">
+                                <input type="hidden" name="quoteid" value="{{ quote.id }}">                 
+                                <input type="submit" name="addFavoriteButton" value="Remove Favorite">
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}                    
+                </table>
             </div>
             <div id="contributequote">
                 <h3>Contribute a Quote:</h3>

@@ -7,14 +7,16 @@ from models import Quote
 
 def index(request):
     loggedinuser = User.objects.get(id=request.session['id'])
-    quotablequotes = Quote.objects.all()
+    favoritequote = Quote.objects.filter(favorite = request.session['id'])
+    quotablequotes = Quote.objects.all().exclude(favorite = request.session['id'])
     context = {
         'loggedinuser': loggedinuser,
-        'quotablequotes': quotablequotes
+        'quotablequotes': quotablequotes,
+        'favoritequotes': favoritequote
     }
     return render(request, 'quotes/index.html', context)
 
-def newQuote(request): 
+def newQuote(request):
     insertnewquote = Quote.objects.insertnewquote(request.POST)
     if not insertnewquote['status']:
         for error in insertnewquote['errors']:
@@ -22,7 +24,7 @@ def newQuote(request):
             return redirect('quotes:newQuote')
     return redirect('quotes:index')
 
-def addFavorite(request): 
+def addFavorite(request):
     insertfavorite = Quote.objects.insertfavorite(request.POST)
     if not insertfavorite['status']:
         for error in insertfavorite['errors']:
