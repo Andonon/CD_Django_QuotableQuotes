@@ -7,11 +7,57 @@
     </head>
     <body>
         <div id='wrapper'>
-            <h1>Hello</h1>
-             <form action="{% url 'auth:logout' %}" id="logoutform" method="post">
-                {% csrf_token %}
-                <input type="submit" name="logoutbutton" value="Log Out">
-            </form>        
+            <div id="header">
+                <h1>Welcome {{ loggedinuser.fname }}</h1>
+                <form action="{% url 'auth:logout' %}" id="logoutform" method="post">
+                    {% csrf_token %}
+                    <input type="submit" name="logoutbutton" value="Log Out">
+                </form>        
+            </div>
+            <div>
+                <h3>Your Favorites</h3>
+                <hr>
+            </div>
+            <div id="contributequote">
+                <h3>Contribute a Quote:</h3>
+                <hr>
+                <form action="{% url 'quotes:newQuote' %}" id="newquoteform" method="post">
+                    {% csrf_token %}
+                    <label for="quoteby">Quote By:</label>
+                    <input type="text" name="quoteby"><br><br>
+                    <label for="quotemessage">Message:</label>
+                    <textarea name="quotemessage" id="quotemessage" cols="50" rows="4"></textarea><br><br>
+                    <input type="hidden" name="createdBy" value="{{ loggedinuser.id }} ">                    
+                    <input type="submit" name="newQuoteButton" value="Submit">
+                </form>    
+            </div id="quotablequotes">
+            <div>
+                <h3>Quotable Quotes</h3>
+                <p>See a quote you like? Click "add to favorites" and the quote will be in your favorites!</p>
+                <hr>
+                <table border>
+                    <tr>
+                        <th>Quote By:</th>
+                        <th>Quote:</th>
+                        <th>submitted by:</th>
+                        <th>Add to Favorites</th>
+                    </tr>
+                {% for quote in quotablequotes %}
+                    <tr>
+                        <td>{{ quote.quoted_by }}</td>
+                        <td>{{ quote.message }}</td>
+                        <td>{{ quote.created_by.alias }}</td>
+                        <td>
+                            <form action="{% url 'quotes:addFavorite' %}" id="addFavorite" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="createdBy" value="{{ loggedinuser.id }} ">                    
+                            <input type="submit" name="addFavoriteButton" value="Add to Favorites">
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}                    
+                </table>
+            </div>
         </div>
     </body>
 </html>
