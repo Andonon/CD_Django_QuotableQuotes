@@ -6,7 +6,6 @@ from ..login.models import User
 class QuoteManager(models.Manager):
     def insertnewquote(self, postData):
         results = {'status': True, 'errors': []}
-        print postData, "*"*150
         if not postData['quoteby'] or len(postData['quoteby']) < 3:
             results['errors'].append("Quoted By must be at least 3 characters")
             results['status'] = False
@@ -20,6 +19,15 @@ class QuoteManager(models.Manager):
             quoted_by=postData['quoteby'],
             message=postData['quotemessage'],
             created_by=user)
+        return results
+
+    def insertfavorite(self, postData):
+        results = {'status': True, 'errors': []}
+        print postData, "*"*150
+        user = User.objects.get(id=postData['createdBy'])
+        quote = Quote.objects.get(id=postData['quoteid'])
+        print user, "*"*150
+        quote.favorite.add(user.id)
         return results
 
 

@@ -24,3 +24,7 @@ def newQuote(request):
 
 def addFavorite(request): 
     insertfavorite = Quote.objects.insertfavorite(request.POST)
+    if not insertfavorite['status']:
+        for error in insertfavorite['errors']:
+            messages.error(request, error)
+    return redirect('quotes:index')
