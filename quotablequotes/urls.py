@@ -5,5 +5,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('apps.quotes.urls')),
+    url(r'^quotes/', include('apps.quotes.urls', namespace="quotes")),
+    url(r'^', include('apps.login.urls', namespace="auth")),
 ]
