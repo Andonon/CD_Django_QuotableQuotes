@@ -6,17 +6,15 @@
     <body>
         <div id='wrapper'>
             <h3>Register to access the Quotable Quotes app.</h3>
-            {% if messages %}
                 <ul class="messages">
-                    {% for message in messages %}
+                {% for message in messages %}
                     <li>{{ message }}</li>
-                    {% endfor %}
+                {% endfor %}
                 </ul>
-            {% endif %}
             <form action="{% url 'auth:register' %}" id="registerform" method="post">
                 {% csrf_token %}
                 <label for="fname">First Name:</label>
-                <input type="text" name="fname"><br><br>
+                <input type="text" name="fname" autofocus><br><br>
                 <label for="lname">Last Name:</label>
                 <input type="text" name="lname"><br><br>
                 <label for="alias">Alias:</label>

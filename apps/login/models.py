@@ -14,7 +14,6 @@ class UserManager(models.Manager):
             results['errors'].append("First Name must be at least 3 characters")
             results['status'] = False
         if not postData['lname'] or len(postData['lname']) < 3:
-            print "I did get this far"
             results['errors'].append("Last Name must be at least 3 characters")
             results['status'] = False
         if not postData['alias'] or len(postData['alias']) < 3:
@@ -27,7 +26,6 @@ class UserManager(models.Manager):
         if not postData['dob']:
             results['errors'].append("Birthday is required")
             results['status'] = False
-            print "I got into dob too"
         if not postData['userpassword'] or len(postData['userpassword']) < 8:
             results['errors'].append("Password must be at least 8 characters")
             results['status'] = False
@@ -56,7 +54,7 @@ class UserManager(models.Manager):
         results = {'status': True, 'errors': [], 'user': None}
         try:                # need this try loop if the db is empty.
             user = User.objects.filter(email=postData['email'])
-            user[0]
+            user[0] #This is an extra test to make sure the data is present
         except:
             results['status'] = False
             results['errors'].append("Account or password failure.")

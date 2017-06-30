@@ -4,15 +4,6 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import User
 
-def checklogin(request):
-    try:
-        request.session['id']
-    except KeyError:
-        request.session.flush()
-        messages.error(request, 'Oh Snap! There is no session cookie detected, please login.')
-        return False
-    return True
-
 def index(request):
     # testdelete = User.objects.all().delete()
     if request.session.get('id'):

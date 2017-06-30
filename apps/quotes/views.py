@@ -5,17 +5,13 @@ from django.contrib import messages
 from .models import User
 from models import Quote
 
-def checklogin(request):
+def index(request):
     try:
         request.session['id']
     except KeyError:
         request.session.flush()
-        messages.error(request, 'Oh Snap! There is no session cookie detected, please login.')
-        return False
-    return True
-
-def index(request):
-    checklogin(request)
+        messages.error(request, 'There is user session detected, please login.')
+        return redirect('auth:index')
     loggedinuser = User.objects.get(id=request.session['id'])
     favoritequote = Quote.objects.filter(favorite = request.session['id'])
     quotablequotes = Quote.objects.all().exclude(favorite = request.session['id'])
@@ -49,7 +45,12 @@ def removeFavorite(request):
     return redirect('quotes:index')
 
 def showUser(request, userid):
-    checklogin(request)
+    try:
+        request.session['id']
+    except KeyError:
+        request.session.flush()
+        messages.error(request, 'There is user session detected, please login.')
+        return redirect('auth:index')
     user = User.objects.get(id=userid)
     quotes = Quote.objects.filter(created_by=userid)
     context = {
