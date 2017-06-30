@@ -28,7 +28,7 @@
                     <tr>
                         <td>{{ quote.quoted_by }}</td>
                         <td>{{ quote.message }}</td>
-                        <td>{{ quote.created_by.alias }}</td>
+                        <td><a href="{% url 'quotes:showUser' quote.created_by.id %}">{{ quote.created_by.alias }}</a></td>
                         <td>
                             <form action="{% url 'quotes:removeFavorite' %}" id="removeFavorite" method="post">
                                 {% csrf_token %}
@@ -69,7 +69,7 @@
                     <tr>
                         <td>{{ quote.quoted_by }}</td>
                         <td>{{ quote.message }}</td>
-                        <td>{{ quote.created_by.alias }}</td>
+                        <td><a href="{% url 'quotes:showUser' quote.created_by.id %}">{{ quote.created_by.alias }}</td>
                         <td>
                             <form action="{% url 'quotes:addFavorite' %}" id="addFavorite" method="post">
                                 {% csrf_token %}

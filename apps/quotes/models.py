@@ -30,10 +30,8 @@ class QuoteManager(models.Manager):
 
     def removefavorite(self, postData):
         results = {'status': True, 'errors': []}
-        print postData, "*"*150
         user = User.objects.get(id=postData['createdBy'])
         quote = Quote.objects.get(id=postData['quoteid'])
-        print user, "*"*150
         quote.favorite.remove(user.id)
         return results
 

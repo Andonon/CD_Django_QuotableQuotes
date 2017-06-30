@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from datetime import datetime
 import re
-import bcrypt
-from datetime import datetime, timedelta
 from django.db import models
+import bcrypt
 
 
 # Create your models here.
@@ -14,26 +14,32 @@ class UserManager(models.Manager):
             results['errors'].append("First Name must be at least 3 characters")
             results['status'] = False
         if not postData['lname'] or len(postData['lname']) < 3:
+            print "I did get this far"
             results['errors'].append("Last Name must be at least 3 characters")
             results['status'] = False
         if not postData['alias'] or len(postData['alias']) < 3:
             results['errors'].append("Alias must be at least 3 characters")
             results['status'] = False
+        if not postData['email'] or \
+            not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", postData['email']):
+            results['errors'].append("Email Address is not valid")
+            results['status'] = False
         if not postData['dob']:
             results['errors'].append("Birthday is required")
             results['status'] = False
+            print "I got into dob too"
         if not postData['userpassword'] or len(postData['userpassword']) < 8:
             results['errors'].append("Password must be at least 8 characters")
             results['status'] = False
         if postData['cpassword'] != postData['userpassword']:
             results['errors'].append("Passwords do not match")
             results['status'] = False
-        if results['status'] is False:
-            return results
-        user = User.objects.filter(alias=postData['alias'])
+        user = User.objects.filter(email=postData['email'])
         if user:
             results['status'] = False
             results['errors'].append("Registration Failure, have you tried to login?")
+        if results['status'] is False:
+            return results
         if results['status']:
             userpassword = bcrypt.hashpw(postData['userpassword'].encode(), bcrypt.gensalt())
             user = User.objects.create(

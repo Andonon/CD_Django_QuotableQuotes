@@ -1,11 +1,21 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.contrib import messages
 from .models import User
 from models import Quote
 
+def checklogin(request):
+    try:
+        request.session['id']
+    except KeyError:
+        request.session.flush()
+        messages.error(request, 'Oh Snap! There is no session cookie detected, please login.')
+        return False
+    return True
+
 def index(request):
+    checklogin(request)
     loggedinuser = User.objects.get(id=request.session['id'])
     favoritequote = Quote.objects.filter(favorite = request.session['id'])
     quotablequotes = Quote.objects.all().exclude(favorite = request.session['id'])
@@ -37,3 +47,13 @@ def removeFavorite(request):
         for error in removefavorite['errors']:
             messages.error(request, error)
     return redirect('quotes:index')
+
+def showUser(request, userid):
+    checklogin(request)
+    user = User.objects.get(id=userid)
+    quotes = Quote.objects.filter(created_by=userid)
+    context = {
+        'user': user,
+        'quotes': quotes
+    }
+    return render(request, 'quotes/showUser.html', context)
