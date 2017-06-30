@@ -21,11 +21,11 @@
                 <hr>
                 <table border>
                     <tr>
-                        <th>Quote:</th>
+                        <th>Users submitted quotes:</th>
                     </tr>
                 {% for quote in quotes %}
                     <tr>
-                        <td>{{ quote.quoted_by }}: {{ quote.message }}</td>
+                        <td><strong>{{ quote.quoted_by }}:</strong> {{ quote.message }}</td>
                     </tr>
                 {% endfor %}                    
                 </table>      
