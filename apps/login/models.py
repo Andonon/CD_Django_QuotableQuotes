@@ -1,3 +1,7 @@
+"""
+This is the main processing model for the login/registration app. 
+All user login and registration validations are done here. 
+"""
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from datetime import datetime
@@ -9,6 +13,7 @@ import bcrypt
 # Create your models here.
 class UserManager(models.Manager):
     def registervalidate(self, postData):
+        """Main registration validations"""
         results = {'status': True, 'errors': [], 'user': None}
         if not postData['fname'] or len(postData['fname']) < 3:
             results['errors'].append("First Name must be at least 3 characters")
@@ -51,6 +56,7 @@ class UserManager(models.Manager):
         return results
 
     def loginvalidate(self, postData):
+        """login only validations"""
         results = {'status': True, 'errors': [], 'user': None}
         try:                # need this try loop if the db is empty.
             user = User.objects.filter(email=postData['email'])

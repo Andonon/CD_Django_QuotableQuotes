@@ -1,3 +1,7 @@
+"""
+This is the main model.py file for the Quotes app. All validations are done here.
+Three functions... insert a quote, add or remove favorite. 
+"""
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
@@ -5,6 +9,7 @@ from ..login.models import User
 
 class QuoteManager(models.Manager):
     def insertnewquote(self, postData):
+        """data validations on new quotes being added. """
         results = {'status': True, 'errors': []}
         if not postData['quoteby'] or len(postData['quoteby']) < 3:
             results['errors'].append("Quoted By must be at least 3 characters")
@@ -22,6 +27,7 @@ class QuoteManager(models.Manager):
         return results
 
     def insertfavorite(self, postData):
+        """ moves a quote to the users favorites."""
         results = {'status': True, 'errors': []}
         user = User.objects.get(id=postData['createdBy'])
         quote = Quote.objects.get(id=postData['quoteid'])
@@ -29,13 +35,12 @@ class QuoteManager(models.Manager):
         return results
 
     def removefavorite(self, postData):
+        """ moves a quote back to the main library """
         results = {'status': True, 'errors': []}
         user = User.objects.get(id=postData['createdBy'])
         quote = Quote.objects.get(id=postData['quoteid'])
         quote.favorite.remove(user.id)
         return results
-
-
 
 class Quote(models.Model):
     quoted_by = models.CharField(max_length=150)
