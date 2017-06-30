@@ -5,8 +5,6 @@ Coding Dojo Python DJango Fundamentals, assignment "Quotable Quotes"
 <strong>Quotes</strong>
 Create a simple app that displays Quotations and allows the user create his/her own Favorites list. The user can also add quotations.
 
-<img src="http://s3.amazonaws.com/General_V88/boomyeah/company_209/chapter_2992/handouts/chapter2992_5525_quotesv2.png" alt="Coding Dojo Assignment Image">
-
 <strong>Features required:</strong>
 
 Login and Registration with validations. Validation errors should appear on the page. Logout feature.
